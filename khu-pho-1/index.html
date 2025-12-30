@@ -9,32 +9,98 @@
             background: #f4f6f9;
             padding: 30px;
         }
+
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: auto;
             background: white;
             padding: 25px;
             border-radius: 10px;
         }
+
         h1 {
             text-align: center;
+            margin-bottom: 25px;
         }
-        a.file {
-            display: block;
+
+        .file-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 12px;
             border-bottom: 1px solid #eee;
+        }
+
+        .actions .btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            margin-left: 6px;
             text-decoration: none;
-            color: #333;
         }
-        a.file:hover {
-            background: #f1f7ff;
+
+        .view {
+            background: #1cc88a;
         }
+
+        .download {
+            background: #4e73df;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        #viewer-container {
+            margin-top: 30px;
+            display: none;
+        }
+
+        #viewer {
+            width: 100%;
+            height: 650px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
         .back {
             margin-top: 20px;
             display: inline-block;
             text-decoration: none;
             color: #2d89ef;
         }
+        @media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    .file-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .actions {
+        width: 100%;
+        margin-top: 8px;
+    }
+
+    .actions .btn {
+        flex: 1;
+        text-align: center;
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    #viewer {
+        height: 450px;
+    }
     </style>
 </head>
 <body>
@@ -42,63 +108,83 @@
 <div class="container">
     <h1>📄 Khu phố 1</h1>
 
+    <!-- FILE 1 -->
     <div class="file-row">
-    <span>📄 Phan Tấn Lộc (2007)</span>
-    <div class="actions">
-        <!-- XEM WORD ONLINE -->
-        <a class="btn view"
-           target="_blank"
-           href="https://view.officeapps.live.com/op/view.aspx?src=https://bchquansutanmy.github.io/khu-pho-1/PhanTanLoc.docx">
-            👁 Xem
-        </a>
+        <span>📄 Phan Tấn Lộc (2007)</span>
+        <div class="actions">
+            <button class="btn view"
+                onclick="viewDoc('PhanTanLoc.docx')">
+                👁 Xem
+            </button>
 
-        <!-- TẢI FILE WORD -->
-        <a class="btn download"
-           href="PhanTanLoc.docx"
-           download>
-            ⬇ Tải
-        </a>
+            <a class="btn download"
+               href="PhanTanLoc.docx"
+               download>
+               ⬇ Tải
+            </a>
+        </div>
     </div>
-</div>
 
-<div class="file-row">
-    <span>📄 Văn bản 02</span>
-    <div class="actions">
-        <a class="btn view"
-           target="_blank"
-           href="https://view.officeapps.live.com/op/view.aspx?src=https://TEN_GITHUB_USER.github.io/TEN_REPO/van-ban-02.docx">
-            👁 Xem
-        </a>
+    <!-- FILE 2 -->
+    <div class="file-row">
+        <span>📄 Văn bản 02</span>
+        <div class="actions">
+            <button class="btn view"
+                onclick="viewDoc('van-ban-02.docx')">
+                👁 Xem
+            </button>
 
-        <a class="btn download"
-           href="van-ban-02.docx"
-           download>
-            ⬇ Tải
-        </a>
+            <a class="btn download"
+               href="van-ban-02.docx"
+               download>
+               ⬇ Tải
+            </a>
+        </div>
     </div>
-</div>
 
-<div class="file-row">
-    <span>📄 Văn bản 03</span>
-    <div class="actions">
-        <a class="btn view"
-           target="_blank"
-           href="https://view.officeapps.live.com/op/view.aspx?src=https://TEN_GITHUB_USER.github.io/TEN_REPO/van-ban-03.docx">
-            👁 Xem
-        </a>
+    <!-- FILE 3 -->
+    <div class="file-row">
+        <span>📄 Văn bản 03</span>
+        <div class="actions">
+            <button class="btn view"
+                onclick="viewDoc('van-ban-03.docx')">
+                👁 Xem
+            </button>
 
-        <a class="btn download"
-           href="van-ban-03.docx"
-           download>
-            ⬇ Tải
-        </a>
+            <a class="btn download"
+               href="van-ban-03.docx"
+               download>
+               ⬇ Tải
+            </a>
+        </div>
     </div>
-</div>
 
-    <!-- thêm đến văn bản 10 -->
+    <!-- KHUNG XEM WORD -->
+    <div id="viewer-container">
+        <iframe id="viewer" frameborder="0"></iframe>
+    </div>
 
     <a class="back" href="../index.html">⬅ Quay lại chọn khu phố</a>
 </div>
+
+<script>
+function viewDoc(fileName) {
+    // ĐƯỜNG DẪN ĐÚNG THEO GITHUB PAGES CỦA BẠN
+    const baseUrl = "https://bchquansutanmy.github.io/khu-pho-1/";
+    
+    const fileUrl = baseUrl + fileName;
+    const viewerUrl =
+        "https://view.officeapps.live.com/op/view.aspx?src=" +
+        encodeURIComponent(fileUrl);
+
+    const viewer = document.getElementById("viewer");
+    const container = document.getElementById("viewer-container");
+
+    viewer.src = viewerUrl;
+    container.style.display = "block";
+    container.scrollIntoView({ behavior: "smooth" });
+}
+</script>
 
 </body>
 </html>
