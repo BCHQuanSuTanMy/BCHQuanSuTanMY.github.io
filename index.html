@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách tài liệu Word</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f4f6f9;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #2d89ef;
+            color: white;
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: left;
+        }
+
+        th {
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        tbody tr:hover {
+            background: #f1f7ff;
+        }
+
+        .file {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            font-size: 22px;
+        }
+
+        .download {
+            text-decoration: none;
+            background: #2d89ef;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .download:hover {
+            opacity: 0.85;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📄 Danh sách tài liệu Word</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên tài liệu</th>
+                <th>Ngày cập nhật</th>
+                <th>Tải về</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td class="file">
+                    <span class="icon">📄</span>
+                    Báo_cáo_tổng_kết.docx
+                </td>
+                <td>01/09/2025</td>
+                <td>
+                    <a class="download" href="Báo_cáo_tổng_kết.docx">Tải</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td class="file">
+                    <span class="icon">📄</span>
+                    Quyết_định_nhân_sự.docx
+                </td>
+                <td>15/08/2025</td>
+                <td>
+                    <a class="download" href="Quyết_định_nhân_sự.docx">Tải</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td class="file">
+                    <span class="icon">📄</span>
+                    Mẫu_đơn_đề_nghị.doc
+                </td>
+                <td>05/08/2025</td>
+                <td>
+                    <a class="download" href="Mẫu_đơn_đề_nghị.doc">Tải</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
