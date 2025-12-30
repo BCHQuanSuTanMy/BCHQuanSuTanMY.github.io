@@ -42,17 +42,10 @@
             text-decoration: none;
         }
 
-        .view {
-            background: #1cc88a;
-        }
+        .view { background: #1cc88a; }
+        .download { background: #4e73df; }
 
-        .download {
-            background: #4e73df;
-        }
-
-        .btn:hover {
-            opacity: 0.85;
-        }
+        .btn:hover { opacity: 0.85; }
 
         /* VIEWER */
         #viewer-container {
@@ -81,11 +74,6 @@
             height: 34px;
             cursor: pointer;
             font-size: 16px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        }
-
-        .close-viewer:hover {
-            opacity: 0.85;
         }
 
         .back {
@@ -97,13 +85,8 @@
 
         /* MOBILE */
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-
-            .container {
-                padding: 15px;
-            }
+            body { padding: 10px; }
+            .container { padding: 15px; }
 
             .file-row {
                 flex-direction: column;
@@ -116,15 +99,13 @@
             }
 
             .actions .btn {
-                flex: 1;
-                text-align: center;
+                width: 100%;
                 font-size: 16px;
                 padding: 10px;
+                margin: 4px 0;
             }
 
-            #viewer {
-                height: 450px;
-            }
+            #viewer { height: 450px; }
         }
     </style>
 </head>
@@ -137,12 +118,8 @@
     <div class="file-row">
         <span>📄 Phan Tấn Lộc (2007)</span>
         <div class="actions">
-            <button class="btn view" onclick="viewDoc('PhanTanLoc.docx')">
-                👁 Xem
-            </button>
-            <a class="btn download" href="PhanTanLoc.docx" download>
-                ⬇ Tải
-            </a>
+            <button class="btn view" onclick="viewDoc('PhanTanLoc.docx')">👁 Xem</button>
+            <a class="btn download" href="PhanTanLoc.docx" download>⬇ Tải</a>
         </div>
     </div>
 
@@ -150,12 +127,8 @@
     <div class="file-row">
         <span>📄 Văn bản 02</span>
         <div class="actions">
-            <button class="btn view" onclick="viewDoc('van-ban-02.docx')">
-                👁 Xem
-            </button>
-            <a class="btn download" href="van-ban-02.docx" download>
-                ⬇ Tải
-            </a>
+            <button class="btn view" onclick="viewDoc('van-ban-02.docx')">👁 Xem</button>
+            <a class="btn download" href="van-ban-02.docx" download>⬇ Tải</a>
         </div>
     </div>
 
@@ -163,46 +136,49 @@
     <div class="file-row">
         <span>📄 Văn bản 03</span>
         <div class="actions">
-            <button class="btn view" onclick="viewDoc('van-ban-03.docx')">
-                👁 Xem
-            </button>
-            <a class="btn download" href="van-ban-03.docx" download>
-                ⬇ Tải
-            </a>
+            <button class="btn view" onclick="viewDoc('van-ban-03.docx')">👁 Xem</button>
+            <a class="btn download" href="van-ban-03.docx" download>⬇ Tải</a>
         </div>
     </div>
 
-    <!-- KHUNG XEM WORD -->
+    <!-- KHUNG XEM -->
     <div id="viewer-container">
         <button class="close-viewer" onclick="closeViewer()">✖</button>
-        <iframe id="viewer" frameborder="0"></iframe>
+        <iframe id="viewer"></iframe>
     </div>
 
     <a class="back" href="../index.html">⬅ Quay lại chọn khu phố</a>
 </div>
 
 <script>
-function viewDoc(fileName) {
-    const baseUrl = "https://bchquansutanmy.github.io/khu-pho-1/";
-    const fileUrl = baseUrl + fileName;
-    const viewerUrl =
-        "https://view.officeapps.live.com/op/view.aspx?src=" +
-        encodeURIComponent(fileUrl);
+function isMobile() {
+    return window.innerWidth <= 768;
+}
 
+function viewDoc(fileName) {
     const viewer = document.getElementById("viewer");
     const container = document.getElementById("viewer-container");
 
-    viewer.src = viewerUrl;
+    if (isMobile()) {
+        // 📱 MOBILE → xem PDF
+        const pdfFile = fileName.replace(".docx", ".pdf");
+        viewer.src = pdfFile;
+    } else {
+        // 💻 DESKTOP → xem WORD
+        const baseUrl = "https://bchquansutanmy.github.io/khu-pho-1/";
+        const fileUrl = baseUrl + fileName;
+        viewer.src =
+            "https://view.officeapps.live.com/op/view.aspx?src=" +
+            encodeURIComponent(fileUrl);
+    }
+
     container.style.display = "block";
     container.scrollIntoView({ behavior: "smooth" });
 }
 
 function closeViewer() {
-    const viewer = document.getElementById("viewer");
-    const container = document.getElementById("viewer-container");
-
-    viewer.src = "";          // giải phóng iframe
-    container.style.display = "none";
+    document.getElementById("viewer").src = "";
+    document.getElementById("viewer-container").style.display = "none";
 }
 </script>
 
