@@ -2,7 +2,9 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Khu phố 1 - Tài liệu Word</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khu phố 1 - Hồ sơ</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,6 +31,10 @@
             align-items: center;
             padding: 12px;
             border-bottom: 1px solid #eee;
+        }
+
+        .actions {
+            display: flex;
         }
 
         .actions .btn {
@@ -74,6 +80,7 @@
             height: 34px;
             cursor: pointer;
             font-size: 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
 
         .back {
@@ -144,7 +151,7 @@
     <!-- KHUNG XEM -->
     <div id="viewer-container">
         <button class="close-viewer" onclick="closeViewer()">✖</button>
-        <iframe id="viewer"></iframe>
+        <iframe id="viewer" type="application/pdf"></iframe>
     </div>
 
     <a class="back" href="../index.html">⬅ Quay lại chọn khu phố</a>
@@ -159,17 +166,18 @@ function viewDoc(fileName) {
     const viewer = document.getElementById("viewer");
     const container = document.getElementById("viewer-container");
 
+    const baseUrl = "https://bchquansutanmy.github.io/khu-pho-1/";
+
     if (isMobile()) {
-        // 📱 MOBILE → xem PDF
+        // 📱 MOBILE → PDF
         const pdfFile = fileName.replace(".docx", ".pdf");
-        viewer.src = pdfFile;
+        viewer.src = baseUrl + pdfFile;
     } else {
-        // 💻 DESKTOP → xem WORD
-        const baseUrl = "https://bchquansutanmy.github.io/khu-pho-1/";
-        const fileUrl = baseUrl + fileName;
+        // 💻 DESKTOP → WORD (Office Online)
+        const wordUrl = baseUrl + fileName;
         viewer.src =
             "https://view.officeapps.live.com/op/view.aspx?src=" +
-            encodeURIComponent(fileUrl);
+            encodeURIComponent(wordUrl);
     }
 
     container.style.display = "block";
