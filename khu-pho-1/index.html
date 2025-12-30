@@ -9,20 +9,21 @@
         body {
             font-family: Arial, sans-serif;
             background: #f4f6f9;
-            padding: 30px;
+            padding: 20px;
+            margin: 0;
         }
 
         .container {
             max-width: 900px;
             margin: auto;
             background: white;
-            padding: 25px;
+            padding: 20px;
             border-radius: 10px;
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .file-row {
@@ -35,27 +36,25 @@
 
         .actions {
             display: flex;
+            gap: 6px;
         }
 
-        .actions .btn {
+        .btn {
             padding: 6px 12px;
             border-radius: 6px;
             font-size: 14px;
             border: none;
             cursor: pointer;
             color: white;
-            margin-left: 6px;
             text-decoration: none;
         }
 
         .view { background: #1cc88a; }
         .download { background: #4e73df; }
 
-        .btn:hover { opacity: 0.85; }
-
-        /* VIEWER */
+        /* ===== DESKTOP VIEWER ===== */
         #viewer-container {
-            margin-top: 30px;
+            margin-top: 25px;
             display: none;
             position: relative;
         }
@@ -67,7 +66,6 @@
             border-radius: 8px;
         }
 
-        /* NÚT ĐÓNG */
         .close-viewer {
             position: absolute;
             top: -12px;
@@ -80,21 +78,34 @@
             height: 34px;
             cursor: pointer;
             font-size: 16px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
 
-        .back {
-            margin-top: 20px;
-            display: inline-block;
-            text-decoration: none;
-            color: #2d89ef;
+        /* ===== MOBILE PDF FULL PAGE ===== */
+        #mobile-viewer {
+            display: none;
+            height: 100vh;
+            background: #fff;
+        }
+
+        #mobile-viewer iframe {
+            width: 100%;
+            height: calc(100vh - 50px);
+            border: none;
+        }
+
+        .mobile-header {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            background: #4e73df;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
         }
 
         /* MOBILE */
         @media (max-width: 768px) {
-            body { padding: 10px; }
-            .container { padding: 15px; }
-
             .file-row {
                 flex-direction: column;
                 align-items: flex-start;
@@ -103,25 +114,29 @@
             .actions {
                 width: 100%;
                 margin-top: 8px;
+                flex-direction: column;
             }
 
-            .actions .btn {
+            .btn {
                 width: 100%;
                 font-size: 16px;
                 padding: 10px;
-                margin: 4px 0;
             }
-
-            #viewer { height: 450px; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<!-- ===== MOBILE PDF VIEW ===== -->
+<div id="mobile-viewer">
+    <div class="mobile-header" onclick="backToList()">⬅ Quay lại danh sách</div>
+    <iframe id="mobile-pdf"></iframe>
+</div>
+
+<!-- ===== MAIN LIST ===== -->
+<div class="container" id="list-container">
     <h1>📄 Khu phố 1</h1>
 
-    <!-- FILE 1 -->
     <div class="file-row">
         <span>📄 Phan Tấn Lộc (2007)</span>
         <div class="actions">
@@ -130,7 +145,6 @@
         </div>
     </div>
 
-    <!-- FILE 2 -->
     <div class="file-row">
         <span>📄 Văn bản 02</span>
         <div class="actions">
@@ -139,7 +153,6 @@
         </div>
     </div>
 
-    <!-- FILE 3 -->
     <div class="file-row">
         <span>📄 Văn bản 03</span>
         <div class="actions">
@@ -148,45 +161,47 @@
         </div>
     </div>
 
-    <!-- KHUNG XEM -->
+    <!-- DESKTOP VIEWER -->
     <div id="viewer-container">
         <button class="close-viewer" onclick="closeViewer()">✖</button>
-        <iframe id="viewer" type="application/pdf"></iframe>
+        <iframe id="viewer"></iframe>
     </div>
-
-    <a class="back" href="../index.html">⬅ Quay lại chọn khu phố</a>
 </div>
 
 <script>
+const BASE_URL = "https://bchquansutanmy.github.io/khu-pho-1/";
+
 function isMobile() {
     return window.innerWidth <= 768;
 }
 
 function viewDoc(fileName) {
-    const viewer = document.getElementById("viewer");
-    const container = document.getElementById("viewer-container");
-
-    const baseUrl = "https://bchquansutanmy.github.io/khu-pho-1/";
-
     if (isMobile()) {
-        // 📱 MOBILE → PDF
-        const pdfFile = fileName.replace(".docx", ".pdf");
-        viewer.src = baseUrl + pdfFile;
+        // 👉 MOBILE: mở PDF toàn trang
+        const pdf = fileName.replace(".docx", ".pdf");
+        document.getElementById("mobile-pdf").src = BASE_URL + pdf;
+        document.getElementById("list-container").style.display = "none";
+        document.getElementById("mobile-viewer").style.display = "block";
     } else {
-        // 💻 DESKTOP → WORD (Office Online)
-        const wordUrl = baseUrl + fileName;
+        // 👉 DESKTOP: Office Online
+        const viewer = document.getElementById("viewer");
         viewer.src =
             "https://view.officeapps.live.com/op/view.aspx?src=" +
-            encodeURIComponent(wordUrl);
+            encodeURIComponent(BASE_URL + fileName);
+        document.getElementById("viewer-container").style.display = "block";
+        viewer.scrollIntoView({ behavior: "smooth" });
     }
-
-    container.style.display = "block";
-    container.scrollIntoView({ behavior: "smooth" });
 }
 
 function closeViewer() {
     document.getElementById("viewer").src = "";
     document.getElementById("viewer-container").style.display = "none";
+}
+
+function backToList() {
+    document.getElementById("mobile-pdf").src = "";
+    document.getElementById("mobile-viewer").style.display = "none";
+    document.getElementById("list-container").style.display = "block";
 }
 </script>
 
