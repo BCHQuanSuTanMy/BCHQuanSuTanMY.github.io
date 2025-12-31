@@ -250,7 +250,7 @@
 <body>
 
 <div class="container">
-    <h1>📄 Khu phố 1</h1>
+    <h1>Khu phố 1</h1>
 
     <!-- 🔽 FILE LIST TỰ ĐỘNG -->
 <div id="file-list"></div>
@@ -275,7 +275,7 @@ const files = [
 files.forEach(item => {
     fileList.innerHTML += `
     <div class="file-row">
-        <span>📄 ${item.name}</span>
+       <span>${index + 1}. ${item.name}</span>
         <div class="actions">
             <button class="btn view" onclick="viewDoc('${item.file}')">👁 Xem</button>
             <a class="btn download" href="${item.file}" download>⬇ Tải</a>
