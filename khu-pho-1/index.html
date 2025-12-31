@@ -272,7 +272,7 @@ const files = [
     const fileList = document.getElementById("file-list");
 
 /* ===== RENDER FILE ROW ===== */
-files.forEach(item => {
+files.forEach((item, index) => {
     fileList.innerHTML += `
     <div class="file-row">
        <span>${index + 1}. ${item.name}</span>
